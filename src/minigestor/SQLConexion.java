@@ -70,6 +70,8 @@ public class SQLConexion extends Thread{
                 } 
                 data.add(row); 
             }
+            
+            /*I did this*/
             /*
             existenMasFilas = rs.next();
             if(!existenMasFilas){
