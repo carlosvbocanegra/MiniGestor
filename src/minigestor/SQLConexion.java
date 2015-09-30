@@ -21,6 +21,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.util.Vector;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 /**
@@ -31,57 +33,44 @@ public class SQLConexion extends Thread{
     protected Socket socketCliente;
     protected BufferedReader entrada;
     protected String consulta;
-    private Vector columns;
-    private Vector data;
-    public SQLConexion(){
+    protected String database;
+    private String salida;
+    public SQLConexion(String consulta, String database){
+        this.consulta=consulta;
+        this.database=database;
+        this.salida=salida;
         start();
     }
     @Override
     public void run(){
         
             System.out.println("Aqui va la consulta:");
-            consulta = "select * from usuario";
             System.out.println("Consulta a Ejecutar: " +consulta+ ";");
             ejecutaSQL();
     }
     public void ejecutaSQL(){
         Connection cnn; //Objeto de conexión a la base de datos
         Statement st; //Objeto con la sentencia SQL
-        ResultSet rs; //Objeto con el resultado de la consulta SQL
-        ResultSetMetaData resultadoMetaData;
-        boolean existenMasFilas; //Indicador de si hay más filas
         String driver = "com.mysql.jdbc.Driver";
-        String usuario = "root", clave = "", registro;
-        int numeroColumnas, i;
+        String usuario = "root", clave = "";
+        JFrame frame=new JFrame();
         try{
             Class.forName(driver);
-            cnn = DriverManager.getConnection("jdbc:mysql://localhost/demo",usuario, clave);
+            cnn = DriverManager.getConnection("jdbc:mysql://localhost/"+database,usuario, clave);
             st = cnn.createStatement();
-            rs = st.executeQuery(consulta);
-            
-            existenMasFilas = rs.next();
-            if(!existenMasFilas){
-                System.out.println("No hay mas filas");
-                return;
-            }
-            resultadoMetaData = rs.getMetaData();
-            numeroColumnas = resultadoMetaData.getColumnCount();
-            System.out.println(numeroColumnas + "columnas en el resultado.");
-            while(existenMasFilas){
-                registro = "";
-                for(i=1;i<=numeroColumnas;i++){
-                    registro = registro.concat(rs.getString(i)+" ");
-                }
-                System.out.println(registro); 
-                existenMasFilas = rs.next();
-            }
-            //
-            rs.close();
+            st.executeUpdate(consulta);
+             salida="Registros Actualizados";
             st.close();
             cnn.close();
         }catch(Exception e){
             System.out.println(e.toString());
+            salida=e.toString();
+
         }
+        JOptionPane.showMessageDialog(frame,salida);
+    }
+    public String getSalida(){
+        return salida;
     }
     /*private static final int PUERTOESCUCHA = 6666;
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt){

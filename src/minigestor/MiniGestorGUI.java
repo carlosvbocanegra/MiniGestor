@@ -8,6 +8,7 @@ package minigestor;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -397,8 +398,9 @@ public class MiniGestorGUI extends javax.swing.JFrame {
             tableModelQuery = new ResultSetTableModel(JDBC_DRIVER, DATABASE_URL, USERNAME, PASSWORD, query);
             jTable4.setModel(tableModelQuery);
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(MiniGestorGUI.class.getName()).log(Level.SEVERE, null, ex);
-            tableModelQuery.disconnectFromDatabase();
+            //Logger.getLogger(MiniGestorGUI.class.getName()).log(Level.SEVERE, null, ex);
+            SQLConexion conexion = new SQLConexion(query, database);
+            //tableModelQuery.disconnectFromDatabase();
         }
     }
     
