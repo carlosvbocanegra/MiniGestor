@@ -22,6 +22,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.util.Vector;
 import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
 /**
  *
  * @author Carlos
