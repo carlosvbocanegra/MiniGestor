@@ -11,4 +11,5 @@ package minigestor;
  */
 public class ClaseDePrueba {
     /*Esta es una clase de prueba*/
+    /*Ya vi tu clase de prueba*/
 }
